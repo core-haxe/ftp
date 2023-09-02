@@ -1,0 +1,6 @@
+--class-path .
+--main TestAll
+
+-lib utest
+-lib ftp
+-lib hxnodejs
