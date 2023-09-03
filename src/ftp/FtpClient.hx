@@ -2,6 +2,7 @@ package ftp;
 
 import promises.Promise;
 import ftp.impl.sftp.IFtpClient;
+import haxe.io.Bytes;
 
 class FtpClient implements IFtpClient {
     private var secure:Bool = true;
@@ -29,6 +30,10 @@ class FtpClient implements IFtpClient {
             path = ".";
         }
         return clientImpl.list(path);
+    }
+
+    public function get(filename:String):Promise<Bytes> {
+        return clientImpl.get(filename);
     }
 
     private function createClient() {

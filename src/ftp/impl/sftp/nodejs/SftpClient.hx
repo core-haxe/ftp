@@ -2,6 +2,8 @@ package ftp.impl.sftp.nodejs;
 
 import ftp.externs.sftp.Client as NativeClient;
 import promises.Promise;
+import haxe.io.Bytes;
+import js.node.Buffer;
 
 class SftpClient extends SftpClientBase {
     private var nativeClient:NativeClient;
@@ -40,6 +42,18 @@ class SftpClient extends SftpClientBase {
                 resolve(resultArray);
             }, error -> {
                 reject(new FtpError(error));
+            });
+        });
+    }
+
+    public override function get(filename:String):Promise<Bytes> {
+        return new Promise((resolve, reject) -> {
+            nativeClient.get(filename).then(buffer -> {
+                var nativeBuffer:Buffer = buffer;
+                var bytes = nativeBuffer.hxToBytes();
+                resolve(bytes);
+            }, error -> {
+                reject(error);
             });
         });
     }

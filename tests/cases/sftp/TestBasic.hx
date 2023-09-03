@@ -17,7 +17,7 @@ class TestBasic extends Test {
             username: "demo", 
             password: "password"
         }).then(_ -> {
-            return client.list(".");
+            return client.list();
         }).then(files -> {
             Assert.equals(2, files.length);
 
@@ -28,6 +28,10 @@ class TestBasic extends Test {
             Assert.equals(FtpFileType.File, files[1].type);
             Assert.equals("readme.txt", files[1].name);
             Assert.equals(405, files[1].size);
+
+            return client.get("readme.txt");
+        }).then(fileBytes -> {
+            Assert.equals(405, fileBytes.length);
         }).then(_ -> {
             return client.disconnect();
         }).then(_ -> {
